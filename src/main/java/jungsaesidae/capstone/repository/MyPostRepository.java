@@ -26,11 +26,11 @@ import static jungsaesidae.capstone.domain.QPost.*;
 public class MyPostRepository {
 
     private final EntityManager em;
-    private JPAQueryFactory queryFactory;
-    private final PostRepository postRepository;
+    private final JPAQueryFactory queryFactory;
 
-    // queryFactory를 어떻게 주입 받을 것인가에 대한 문제 해결하자.
-
+//    public MyPostRepository(EntityManager em) {
+//        this.queryFactory = new JPAQueryFactory(em);
+//    }
 
     /**
      * MyPost 조회 기능
@@ -38,8 +38,7 @@ public class MyPostRepository {
      * @return
      */
 
-    public List<MyPostDto> findAll_v1(Long userId) {
-        queryFactory = new JPAQueryFactory(em);
+    public List<MyPostDto> findByUserId(Long userId) {
 
         List<MyPostDto> result = queryFactory
                 .select(new QMyPostDto(

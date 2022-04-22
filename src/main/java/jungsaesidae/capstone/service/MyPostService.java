@@ -22,20 +22,16 @@ public class MyPostService {
     private final UserService userService;
 
     public List<MyPostDto> findMyPosts(Long userId) {
-        return myPostRepository.findAll_v1(userId);
+        return myPostRepository.findByUserId(userId);
     }
 
     @Transactional
     public void addMyPosts(Long userId, Long postId) {
 
-        System.out.println("userId = " + userId);
-        System.out.println("postId = " + postId);
+        // "예외 처리에 대한 부분" => Issue 등록
 
         Post post = postService.findOneById(postId);
-        System.out.println("post = " + post);
-
         User user = userService.findOneById(userId);
-        System.out.println("user = " + user);
 
         MyPost myPost = new MyPost();
 
