@@ -4,6 +4,7 @@ import jungsaesidae.capstone.domain.MyPost;
 import jungsaesidae.capstone.dto.MyPost.MyPostDto;
 import jungsaesidae.capstone.service.MyPostService;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,10 +33,17 @@ public class MyPostApiController {
     @PostMapping("/myposts/v1")
     public void addmyPostById(@RequestBody CreateMyPostRequest request) {
 
+//        System.out.println("Hello world");
+//
+//        System.out.println("request.postId = " + request.getPostId());
+//        System.out.println("request.userId = " + request.getUserId());
+
+        myPostService.addMyPosts(request.getUserId(), request.getPostId());
     }
 
     @Data // 근데 정확히 @Data가 뭐임?
-    private class CreateMyPostRequest {
+    @NoArgsConstructor
+    private static class CreateMyPostRequest {
         private Long userId;
         private Long postId;
     }

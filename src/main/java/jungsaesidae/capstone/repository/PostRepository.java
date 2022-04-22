@@ -28,6 +28,17 @@ public class PostRepository {
     private JPAQueryFactory queryFactory;
     // what is exactly "final" keyword meaning?
 
+    public Post fineOneById(Long id) {
+        queryFactory = new JPAQueryFactory(em);
+
+        Post result = queryFactory
+                .selectFrom(QPost.post)
+                .where(QPost.post.id.eq(id))
+                .fetchOne();
+
+        return result;
+    }
+
     public List<Post> findAll() {
         queryFactory = new JPAQueryFactory(em);
 

@@ -16,6 +16,10 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+    public Post findOneById(Long id) {
+        return postRepository.fineOneById(id);
+    }
+
     public List<Post> findAll() {
         return postRepository.findAll();
     }
