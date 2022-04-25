@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 
+import java.util.Optional;
+
 import static jungsaesidae.capstone.domain.QUser.*;
 
 @Repository
@@ -15,16 +17,14 @@ import static jungsaesidae.capstone.domain.QUser.*;
 public class UserRespository {
 
     private final EntityManager em;
-    private JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
-    public User findOneById(Long userId) {
+    public Optional<User> findOneById(Long userId) {
 
-        queryFactory = new JPAQueryFactory(em);
-
-        User result = queryFactory
+        Optional<User> result = Optional.ofNullable(queryFactory
                 .selectFrom(user)
                 .where(user.id.eq(userId))
-                .fetchOne();
+                .fetchOne());
 
         return result;
     }

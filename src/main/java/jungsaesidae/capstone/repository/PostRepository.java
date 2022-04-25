@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static jungsaesidae.capstone.domain.QItem.*;
 import static jungsaesidae.capstone.domain.QLocation.*;
@@ -25,22 +26,19 @@ import static jungsaesidae.capstone.domain.QPost.*;
 public class PostRepository {
 
     private final EntityManager em;
-    private JPAQueryFactory queryFactory;
-    // what is exactly "final" keyword meaning?
+    private final JPAQueryFactory queryFactory;
 
-    public Post fineOneById(Long id) {
-        queryFactory = new JPAQueryFactory(em);
+    public Optional<Post> fineOneById(Long id) {
 
-        Post result = queryFactory
+        Optional<Post> result = Optional.ofNullable(queryFactory
                 .selectFrom(QPost.post)
                 .where(QPost.post.id.eq(id))
-                .fetchOne();
+                .fetchOne());
 
         return result;
     }
 
     public List<Post> findAll() {
-        queryFactory = new JPAQueryFactory(em);
 
         List<Post> result = queryFactory
                 .selectFrom(post)
@@ -51,7 +49,6 @@ public class PostRepository {
     }
 
     public PostDto findOne(NumberPath<Long> postId) {
-        queryFactory = new JPAQueryFactory(em);
 
         PostDto result = queryFactory
                 .select(new QPostDto(
@@ -85,7 +82,6 @@ public class PostRepository {
      */
 
     public List<PostDto> findByCondition(String platformCond, String cityCond, String stateCond, String orderCond) {
-        queryFactory = new JPAQueryFactory(em);
 
         List<PostDto> result = queryFactory
                 .select(new QPostDto(

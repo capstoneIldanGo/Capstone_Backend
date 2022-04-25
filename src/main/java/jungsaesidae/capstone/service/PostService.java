@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -16,7 +17,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public Post findOneById(Long id) {
+    public Optional<Post> findOneById(Long id) {
         return postRepository.fineOneById(id);
     }
 

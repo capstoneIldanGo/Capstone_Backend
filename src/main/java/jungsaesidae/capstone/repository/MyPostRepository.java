@@ -75,4 +75,25 @@ public class MyPostRepository {
         em.persist(myPost);
     }
 
+    /**
+     * MyPost 삭제 기능
+     */
+
+    public void delete(Long myPostId) {
+        long count = queryFactory
+                .delete(myPost)
+                .where(myPost.id.eq(myPostId))
+                .execute();
+
+        System.out.println("What the hack?: " + count);
+    }
+
+    public void delete(Long userId, Long postId) {
+        long count = queryFactory
+                .delete(myPost)
+                .where(myPost.user.id.eq(userId).and(myPost.post.id.eq(postId)))
+                .execute();
+
+        System.out.println("What the hack?: " + count);
+    }
 }
