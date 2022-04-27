@@ -19,15 +19,12 @@ public class Item {
 
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<MarketPrice> marketPrice = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "item")
     private List<Post> post = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "item")
     private List<PriceAlarm> priceAlarm = new ArrayList<>();
 

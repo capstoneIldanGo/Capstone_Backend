@@ -21,6 +21,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<MyPost> myPost = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<PriceAlarm> priceAlarm = new ArrayList<>();
 }
