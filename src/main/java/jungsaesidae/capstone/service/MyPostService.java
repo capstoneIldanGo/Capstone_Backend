@@ -5,13 +5,12 @@ import jungsaesidae.capstone.domain.Post;
 import jungsaesidae.capstone.domain.User;
 import jungsaesidae.capstone.dto.MyPost.MyPostDto;
 import jungsaesidae.capstone.repository.MyPostRepository;
-import jungsaesidae.capstone.repository.PostRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -45,11 +44,11 @@ public class MyPostService {
 
     @Transactional
     public void deleteMyPosts(Long myPostId) {
-        myPostRepository.delete(myPostId);
+        myPostRepository.deleteById(myPostId);
     }
 
     @Transactional
     public void deleteMyPosts(Long userId, Long postId) {
-        myPostRepository.delete(userId, postId);
+        myPostRepository.deleteByUserIdAndPostId(userId, postId);
     }
 }

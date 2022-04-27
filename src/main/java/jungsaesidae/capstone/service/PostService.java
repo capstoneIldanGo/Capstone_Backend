@@ -18,11 +18,7 @@ public class PostService {
     private final PostRepository postRepository;
 
     public Optional<Post> findOneById(Long id) {
-        return postRepository.fineOneById(id);
-    }
-
-    public List<Post> findAll() {
-        return postRepository.findAll();
+        return postRepository.findById(id);
     }
 
     public List<PostDto> findAllByDto(String platformCond, String cityCond, String stateCond, String orderCond) {

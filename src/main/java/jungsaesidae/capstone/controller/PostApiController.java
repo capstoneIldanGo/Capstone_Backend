@@ -19,11 +19,6 @@ public class PostApiController {
 
     private final PostService postService;
 
-    @GetMapping("/posts")
-    public List<Post> post() {
-        return postService.findAll();
-    }
-
     @GetMapping("/postdto")
     public List<PostDto> postByDto(
             @RequestParam(value = "platform", required = false) String platform,

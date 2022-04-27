@@ -1,22 +1,11 @@
 package jungsaesidae.capstone.repository;
 
 import jungsaesidae.capstone.domain.MarketPrice;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import jungsaesidae.capstone.repository.custom.MarketPriceRepositoryCustom;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.persistence.EntityManager;
-import java.util.List;
+public interface MarketPriceRepository extends JpaRepository<MarketPrice, Long>, MarketPriceRepositoryCustom {
 
-@Repository
-@RequiredArgsConstructor
-public class MarketPriceRepository {
 
-    private final EntityManager em;
 
-    public List<MarketPrice> findAll() {
-        return em.createQuery(
-                "select mp from MarketPrice mp" +
-                        " join fetch mp.item i", MarketPrice.class)
-                .getResultList();
-    }
 }
