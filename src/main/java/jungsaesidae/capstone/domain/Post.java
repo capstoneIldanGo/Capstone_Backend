@@ -18,8 +18,10 @@ public class Post {
 
     private String url;
     private boolean isSold;
-    private boolean isSClass;
+    private boolean isMint;
     private LocalDateTime uploadDate;
+    private String title;
+    private String productImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
@@ -43,8 +45,8 @@ public class Post {
     //== 연관관계 메소드 ==//
     // 일단은 모두 양방향
 
-    public static Post createPost(Location location, Platform platform, MarketPrice markerPrice,
-                                  Item item, String url, boolean isSold, boolean isSClass, LocalDateTime uploadDate) {
+    public static Post createPost(Location location, Platform platform, MarketPrice markerPrice, Item item,
+                                  String url, boolean isSold, boolean isMint, LocalDateTime uploadDate, String title, String productImage) {
         Post post = new Post();
         post.setLocation(location);
         post.setPlatform(platform);
@@ -52,8 +54,10 @@ public class Post {
         post.setItem(item);
         post.setUrl(url);
         post.setSold(isSold);
-        post.setSClass(isSClass);
+        post.setMint(isMint);
         post.setUploadDate(uploadDate);
+        post.setTitle(title);
+        post.setProductImage(productImage);
 
         return post;
     }
