@@ -27,8 +27,6 @@ public class PostApiController {
             @RequestParam(value = "city", required = false) String city,
             @RequestParam(value = "state", required = false) String state,
             @RequestParam(value = "ordering", required = false) String ordering
-//            @RequestParam(value = "priceOrder", required = false) String priceOrd,
-//            @RequestParam(value = "uploadDateOrder", required = false) String uploadDateOrd
         ) {
 
         return postService.findAllByDto(platform, city, state, ordering);
@@ -39,9 +37,10 @@ public class PostApiController {
             @RequestParam(value = "platform", required = false) String platform,
             @RequestParam(value = "city", required = false) String city,
             @RequestParam(value = "state", required = false) String state,
+            @RequestParam(value = "isMint", required = false) boolean isMint,
             @RequestParam(value = "ordering", required = false) String ordering,
             Pageable pageable
     ) {
-        return postService.findAllByCondition(platform, city, state, ordering, pageable);
+        return postService.findAllByCondition(platform, city, state, isMint, ordering, pageable);
     }
 }

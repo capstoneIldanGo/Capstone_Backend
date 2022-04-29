@@ -27,8 +27,8 @@ public class PostService {
         return postRepository.findByCondition(platformCond, cityCond, stateCond, orderCond);
     }
 
-    public Page<PostDto> findAllByCondition(String platformCond, String cityCond, String stateCond, String orderCond, Pageable pageable) {
-        return postRepository.findAllByCondition(platformCond, cityCond, stateCond, orderCond, pageable);
+    public Page<PostDto> findAllByCondition(String platformCond, String cityCond, String stateCond, boolean isMint, String orderCond, Pageable pageable) {
+        return postRepository.findAllByCondition(platformCond, cityCond, stateCond, isMint, orderCond, pageable);
     }
 
 }

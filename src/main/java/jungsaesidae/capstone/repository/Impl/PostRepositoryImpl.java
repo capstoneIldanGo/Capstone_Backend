@@ -100,7 +100,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
      * @return
      */
 
-    public Page<PostDto> findAllByCondition(String platformCond, String cityCond, String stateCond, String orderCond, Pageable pageable) {
+    public Page<PostDto> findAllByCondition(String platformCond, String cityCond, String stateCond, boolean isMint, String orderCond, Pageable pageable) {
 
         List<PostDto> content = queryFactory
                 .select(new QPostDto(
@@ -117,7 +117,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.productImage
                 ))
                 .from(post)
-                .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond))
+                .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint))
                 .orderBy(orderFunc(orderCond))
                 .join(post.location, location)
                 .join(post.platform, platform)
@@ -130,7 +130,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post)
-                .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond))
+                .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint))
                 .join(post.location, location)
                 .join(post.platform, platform)
                 .join(post.marketPrice, marketPrice)
@@ -157,6 +157,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private BooleanExpression stateEq(String stateCond) {
         return stateCond != null ? post.location.state.eq(stateCond) : null;
     }
+
+    private BooleanExpression isMintEq(boolean isMint) {
+//        return post.isMint.eq(isMint);
+        return isMint == true ? post.isMint.eq(true) : null;
+    }
+
 
     /**
      * 정렬하는 method

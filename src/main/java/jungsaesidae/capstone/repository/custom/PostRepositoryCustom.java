@@ -11,6 +11,5 @@ public interface PostRepositoryCustom {
 
     public PostDto findOne(NumberPath<Long> postId);
     public List<PostDto> findByCondition(String platformCond, String cityCond, String stateCond, String orderCond);
-//    public Page<PostDto> findAllByCondition(String platformCond, String cityCond, String stateCond, String orderCond);
-    public Page<PostDto> findAllByCondition(String platformCond, String cityCond, String stateCond, String orderCond, Pageable pageable);
+    public Page<PostDto> findAllByCondition(String platformCond, String cityCond, String stateCond, boolean isMint, String orderCond, Pageable pageable);
 }
