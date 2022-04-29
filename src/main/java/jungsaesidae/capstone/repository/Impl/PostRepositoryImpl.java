@@ -3,12 +3,16 @@ package jungsaesidae.capstone.repository.Impl;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jungsaesidae.capstone.dto.Post.PostDto;
 import jungsaesidae.capstone.dto.Post.QLocationDto;
 import jungsaesidae.capstone.dto.Post.QPostDto;
 import jungsaesidae.capstone.repository.custom.PostRepositoryCustom;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
@@ -29,12 +33,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.id,
                         post.url,
                         post.isSold,
-                        post.isSClass,
+                        post.isMint,
                         post.uploadDate,
                         new QLocationDto(location.id, location.city, location.state),
                         platform.name,
                         marketPrice.price,
-                        item.name
+                        item.name,
+                        post.title,
+                        post.productImage
                 ))
                 .from(post)
                 .where(post.id.eq(postId))
@@ -63,12 +69,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.id,
                         post.url,
                         post.isSold,
-                        post.isSClass,
+                        post.isMint,
                         post.uploadDate,
                         new QLocationDto(location.id, location.city, location.state),
                         platform.name,
                         marketPrice.price,
-                        item.name
+                        item.name,
+                        post.title,
+                        post.productImage
                 ))
                 .from(post)
                 .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond))
@@ -81,6 +89,56 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         return result;
     }
+
+    /**
+     * 검색API (페이지네이션으로 구현)
+     * @param platformCond
+     * @param cityCond
+     * @param stateCond
+     * @param orderCond
+     * @param pageable
+     * @return
+     */
+
+    public Page<PostDto> findAllByCondition(String platformCond, String cityCond, String stateCond, String orderCond, Pageable pageable) {
+
+        List<PostDto> content = queryFactory
+                .select(new QPostDto(
+                        post.id,
+                        post.url,
+                        post.isSold,
+                        post.isMint,
+                        post.uploadDate,
+                        new QLocationDto(location.id, location.city, location.state),
+                        platform.name,
+                        marketPrice.price,
+                        item.name,
+                        post.title,
+                        post.productImage
+                ))
+                .from(post)
+                .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond))
+                .orderBy(orderFunc(orderCond))
+                .join(post.location, location)
+                .join(post.platform, platform)
+                .join(post.marketPrice, marketPrice)
+                .join(post.item, item)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(post.count())
+                .from(post)
+                .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond))
+                .join(post.location, location)
+                .join(post.platform, platform)
+                .join(post.marketPrice, marketPrice)
+                .join(post.item, item);
+
+        return PageableExecutionUtils.getPage(content, pageable, () -> countQuery.fetchOne());
+    }
+
 
     /**
      * Condition func

@@ -4,6 +4,8 @@ import jungsaesidae.capstone.domain.Post;
 import jungsaesidae.capstone.dto.Post.PostDto;
 import jungsaesidae.capstone.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,4 +26,9 @@ public class PostService {
     public List<PostDto> findAllByDto(String platformCond, String cityCond, String stateCond, String orderCond) {
         return postRepository.findByCondition(platformCond, cityCond, stateCond, orderCond);
     }
+
+    public Page<PostDto> findAllByCondition(String platformCond, String cityCond, String stateCond, String orderCond, Pageable pageable) {
+        return postRepository.findAllByCondition(platformCond, cityCond, stateCond, orderCond, pageable);
+    }
+
 }
