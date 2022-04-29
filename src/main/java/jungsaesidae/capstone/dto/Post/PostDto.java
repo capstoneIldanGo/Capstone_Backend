@@ -13,7 +13,7 @@ public class PostDto {
     private Long postId;
     private String url;
     private boolean isSold;
-    private boolean isSClass;
+    private boolean isMint;
     private LocalDateTime uploadDate;
 
     private LocationDto location;
@@ -21,17 +21,22 @@ public class PostDto {
     private int price;
     private String itemName;
 
+    private String title;
+    private String productImage;
+
     @QueryProjection
-    public PostDto(Long postId, String url, boolean isSold, boolean isSClass, LocalDateTime uploadDate,
-                   LocationDto location, String platform, int price, String itemName) {
+    public PostDto(Long postId, String url, boolean isSold, boolean isMint, LocalDateTime uploadDate, LocationDto location,
+                   String platform, int price, String itemName, String title, String productImage) {
         this.postId = postId;
         this.url = url;
         this.isSold = isSold;
-        this.isSClass = isSClass;
+        this.isMint = isMint;
         this.uploadDate = uploadDate;
         this.location = location;
         this.platform = platform;
         this.price = price;
         this.itemName = itemName;
+        this.title = title;
+        this.productImage = productImage;
     }
 }

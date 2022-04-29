@@ -36,12 +36,14 @@ public class MyPostRepositoryImpl {
                                 post.id,
                                 post.url,
                                 post.isSold,
-                                post.isSClass,
+                                post.isMint,
                                 post.uploadDate,
                                 new QLocationDto(location.id, location.city, location.state),
                                 platform.name,
                                 marketPrice.price,
-                                item.name
+                                item.name,
+                                post.title,
+                                post.productImage
                         )
                 ))
                 .from(myPost)
