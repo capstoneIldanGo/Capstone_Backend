@@ -1,12 +1,9 @@
 package jungsaesidae.capstone.repository.Impl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jungsaesidae.capstone.domain.QItem;
-import jungsaesidae.capstone.domain.QPriceAlarm;
-import jungsaesidae.capstone.domain.QUser;
+import jungsaesidae.capstone.repository.custom.PriceAlarmRepositoryCustom;
 import jungsaesidae.capstone.dto.PriceAlarm.PriceAlarmDto;
 import jungsaesidae.capstone.dto.PriceAlarm.QPriceAlarmDto;
-import jungsaesidae.capstone.repository.custom.PriceAlarmRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

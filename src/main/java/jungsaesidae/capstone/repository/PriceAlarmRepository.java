@@ -1,7 +1,7 @@
 package jungsaesidae.capstone.repository;
 
-import jungsaesidae.capstone.domain.PriceAlarm;
 import jungsaesidae.capstone.repository.custom.PriceAlarmRepositoryCustom;
+import jungsaesidae.capstone.domain.PriceAlarm;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

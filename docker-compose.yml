@@ -1,0 +1,29 @@
+version: "3"
+services:
+  database:
+    container_name: mariadb_container
+    image: mariadb
+    volumes:
+      - ~/docker/mariadb/etc/mysql/conf.d:/etc/mysql/conf.d:ro
+      - ~/docker/mariadb/var/lib/mysql:/var/lib/mysql
+      - ~/docker/mariadb/var/log/maria:/var/log/maria
+    environment:
+      - MARIADB_DATABASE=dev
+      - MARIADB_USER=developer
+      - MARIADB_PASSWORD=1234
+      - MARIADB_ROOT_PASSWORD=1234
+      - MARIADB_ROOT_HOST=%
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    ports:
+      - 13306:3306
+
+  application:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb_container:3306/dev?useUnicode=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
