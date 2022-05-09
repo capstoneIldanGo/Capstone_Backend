@@ -7,12 +7,10 @@ import jungsaesidae.capstone.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,17 +18,6 @@ import java.util.List;
 public class PostApiController {
 
     private final PostService postService;
-
-    @GetMapping("/postdto")
-    public List<PostDto> postByDto(
-            @RequestParam(value = "platform", required = false) String platform,
-            @RequestParam(value = "city", required = false) String city,
-            @RequestParam(value = "state", required = false) String state,
-            @RequestParam(value = "ordering", required = false) String ordering
-        ) {
-
-        return postService.findAllByDto(platform, city, state, ordering);
-    }
 
     @GetMapping("/post")
     public Page<PostDto> getPostByPage(
@@ -43,4 +30,10 @@ public class PostApiController {
     ) {
         return postService.findAllByCondition(platform, city, state, isMint, ordering, pageable);
     }
+
+    @GetMapping("/post/{postId}")
+    public Optional<PostDto> getPostByPostId(@PathVariable(name = "postId") Long postId) {
+        return postService.findDtoById(postId);
+    }
+
 }

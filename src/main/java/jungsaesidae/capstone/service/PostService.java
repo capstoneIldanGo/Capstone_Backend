@@ -23,6 +23,10 @@ public class PostService {
         return postRepository.findById(id);
     }
 
+    public Optional<PostDto> findDtoById(Long id) {
+        return postRepository.findOne(id);
+    }
+
     public List<PostDto> findAllByDto(String platformCond, String cityCond, String stateCond, String orderCond) {
         return postRepository.findByCondition(platformCond, cityCond, stateCond, orderCond);
     }

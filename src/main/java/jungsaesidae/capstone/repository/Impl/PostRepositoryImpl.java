@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static jungsaesidae.capstone.domain.QItem.item;
 import static jungsaesidae.capstone.domain.QLocation.location;
@@ -27,28 +28,30 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public PostDto findOne(NumberPath<Long> postId) {
-        PostDto result = queryFactory
-                .select(new QPostDto(
-                        post.id,
-                        post.url,
-                        post.isSold,
-                        post.isMint,
-                        post.uploadDate,
-                        new QLocationDto(location.id, location.city, location.state),
-                        platform.name,
-                        marketPrice.price,
-                        item.name,
-                        post.title,
-                        post.productImage
-                ))
-                .from(post)
-                .where(post.id.eq(postId))
-                .join(post.location, location)
-                .join(post.platform, platform)
-                .join(post.marketPrice, marketPrice)
-                .join(post.item, item)
-                .fetchOne();
+    public Optional<PostDto> findOne(Long postId) {
+        Optional<PostDto> result = Optional.ofNullable(
+                queryFactory
+                    .select(new QPostDto(
+                            post.id,
+                            post.url,
+                            post.isSold,
+                            post.isMint,
+                            post.uploadDate,
+                            new QLocationDto(location.id, location.city, location.state),
+                            platform.name,
+                            marketPrice.price,
+                            item.name,
+                            post.title,
+                            post.productImage
+                    ))
+                    .from(post)
+                    .where(post.id.eq(postId))
+                    .join(post.location, location)
+                    .join(post.platform, platform)
+                    .join(post.marketPrice, marketPrice)
+                    .join(post.item, item)
+                    .fetchOne()
+        );
 
         return result;
 
