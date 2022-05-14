@@ -180,8 +180,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         if (orderCond.equals("UPLOADDATE_DESC"))
             return post.uploadDate.desc();
+        else if (orderCond.equals("UPLOADDATE_ASC"))
+            return post.uploadDate.asc();
         else if (orderCond.equals("PRICE_DESC"))
             return post.marketPrice.price.desc();
+        else if (orderCond.equals("PRICE_ASC"))
+            return post.marketPrice.price.asc();
         else
             return post.id.desc();
     }
