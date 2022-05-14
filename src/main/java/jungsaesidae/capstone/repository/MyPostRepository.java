@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MyPostRepository extends JpaRepository<MyPost, Long>, MyPostRepositoryCustom {
 
     void deleteByUserIdAndPostId(Long userId, Long postId);
+    boolean existsMyPostByUserIdAndPostId(Long userId, Long postId);
 }
 

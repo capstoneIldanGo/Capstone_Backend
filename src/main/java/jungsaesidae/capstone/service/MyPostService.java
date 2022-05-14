@@ -51,4 +51,8 @@ public class MyPostService {
     public void deleteMyPosts(Long userId, Long postId) {
         myPostRepository.deleteByUserIdAndPostId(userId, postId);
     }
+
+    public boolean existMyPost(Long userId, Long postId) {
+        return myPostRepository.existsMyPostByUserIdAndPostId(userId, postId);
+    }
 }
