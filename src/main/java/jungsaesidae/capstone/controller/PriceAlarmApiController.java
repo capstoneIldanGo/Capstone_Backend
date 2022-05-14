@@ -40,4 +40,12 @@ public class PriceAlarmApiController {
     public void delete(@PathVariable("priceAlarmId") Long priceAlarmId) {
         priceAlarmService.delete(priceAlarmId);
     }
+
+    @GetMapping("/exist")
+    public boolean existPriceAlarm(
+            @RequestParam(value = "userId", required = true) Long userId,
+            @RequestParam(value = "itemId", required = true) Long itemId
+    ) {
+        return priceAlarmService.existPriceAlarm(userId, itemId);
+    }
 }

@@ -47,4 +47,7 @@ public class PriceAlarmService {
         priceAlarmRepository.deleteById(priceAlarmId);
     }
 
+    public boolean existPriceAlarm(Long userId, Long itemId) {
+        return priceAlarmRepository.existsPriceAlarmsByUserIdAndItemId(userId, itemId);
+    }
 }

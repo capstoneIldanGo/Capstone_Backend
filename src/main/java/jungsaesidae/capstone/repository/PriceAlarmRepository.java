@@ -10,4 +10,5 @@ public interface PriceAlarmRepository extends JpaRepository<PriceAlarm, Long>, P
 
     List<PriceAlarm> findAllByUserId(Long userId);
     void deleteByUserIdAndItemId(Long userId, Long itemId);
+    boolean existsPriceAlarmsByUserIdAndItemId(Long userId, Long itemId);
 }
