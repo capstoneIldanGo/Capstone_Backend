@@ -18,8 +18,8 @@ services:
       - 13306:3306
 
   application:
-#    build: .
-    image: capstone-image
+    build: .
+#    image: capstone-image
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb_container:3306/dev?useUnicode=true
       SPRING_DATASOURCE_USERNAME: root

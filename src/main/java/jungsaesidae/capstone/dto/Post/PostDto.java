@@ -1,5 +1,6 @@
 package jungsaesidae.capstone.dto.Post;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,8 @@ public class PostDto {
     private String url;
     private boolean isSold;
     private boolean isMint;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime uploadDate;
 
     private LocationDto location;
