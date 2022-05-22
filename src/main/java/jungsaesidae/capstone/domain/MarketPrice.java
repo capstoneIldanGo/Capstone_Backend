@@ -11,21 +11,28 @@ import javax.persistence.*;
 public class MarketPrice {
 
     @Id @GeneratedValue
-    @Column(name = "marker_price_id")
+    @Column(name = "market_price_id")
     private Long id;
 
     private int price;
 
-    @OneToOne(mappedBy = "marketPrice", fetch = FetchType.LAZY)
+    // <변경 전>
+//    @OneToOne(mappedBy = "marketPrice", fetch = FetchType.LAZY)
+//    private Post post;
+
+//     <변경 후>
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 
-    public static MarketPrice createMarketPrice(Item item, int price) {
+    public static MarketPrice createMarketPrice(Item item, Post post, int price) {
         MarketPrice marketPrice = new MarketPrice();
         marketPrice.setItem(item);
+        marketPrice.setPost(post);
         marketPrice.setPrice(price);
 
         return marketPrice;
