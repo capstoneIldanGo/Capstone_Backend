@@ -21,6 +21,7 @@ public class PostApiController {
 
     @GetMapping("/post")
     public Page<PostDto> getPostByPage(
+            @RequestParam(value = "keyword", required = true) String keyword,
             @RequestParam(value = "platform", required = false) String platform,
             @RequestParam(value = "city", required = false) String city,
             @RequestParam(value = "state", required = false) String state,
@@ -28,7 +29,7 @@ public class PostApiController {
             @RequestParam(value = "ordering", required = false) String ordering,
             Pageable pageable
     ) {
-        return postService.findAllByCondition(platform, city, state, isMint, ordering, pageable);
+        return postService.findAllByCondition(keyword, platform, city, state, isMint, ordering, pageable);
     }
 
     @GetMapping("/post/{postId}")

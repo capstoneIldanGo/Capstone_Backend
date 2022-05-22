@@ -103,7 +103,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
      * @return
      */
 
-    public Page<PostDto> findAllByCondition(String platformCond, String cityCond, String stateCond, boolean isMint, String orderCond, Pageable pageable) {
+    public Page<PostDto> findAllByCondition(Long itemId, String platformCond,  String cityCond, String stateCond, boolean isMint, String orderCond, Pageable pageable) {
 
         List<PostDto> content = queryFactory
                 .select(new QPostDto(
@@ -120,7 +120,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.productImage
                 ))
                 .from(post)
-                .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint))
+                .where(itemIdEq(itemId), platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint))
                 .orderBy(orderFunc(orderCond))
                 .join(post.location, location)
                 .join(post.platform, platform)
@@ -133,7 +133,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post)
-                .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint))
+                .where(itemIdEq(itemId), platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint))
                 .join(post.location, location)
                 .join(post.platform, platform)
                 .join(post.marketPrice, marketPrice)
@@ -145,9 +145,13 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     /**
      * Condition func
-     * @param platformCond
+     * @param
      * @return
      */
+
+    private BooleanExpression itemIdEq(Long itemId) {
+        return itemId != null ? post.item.id.eq(itemId) : null;
+    }
 
     private BooleanExpression platformEq(String platformCond) {
         return platformCond != null ? post.platform.name.eq(platformCond) : null;
