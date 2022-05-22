@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,4 +19,6 @@ public class ItemService {
     public Optional<Item> fineOneById(Long id) {
         return itemRepository.findById(id);
     }
+    public Optional<Item> findByKeyword(String keyword) {
+        return itemRepository.findByName(keyword);}
 }
