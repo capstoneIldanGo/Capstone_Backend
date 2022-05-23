@@ -26,10 +26,11 @@ public class PostApiController {
             @RequestParam(value = "city", required = false) String city,
             @RequestParam(value = "state", required = false) String state,
             @RequestParam(value = "isMint", required = false) boolean isMint,
+            @RequestParam(value = "isSold", required = false) boolean isSold,
             @RequestParam(value = "ordering", required = false) String ordering,
             Pageable pageable
     ) {
-        return postService.findAllByCondition(keyword, platform, city, state, isMint, ordering, pageable);
+        return postService.findAllByCondition(keyword, platform, city, state, isMint, isSold, ordering, pageable);
     }
 
     @GetMapping("/post/{postId}")

@@ -33,12 +33,12 @@ public class PostService {
         return postRepository.findByCondition(platformCond, cityCond, stateCond, orderCond);
     }
 
-    public Page<PostDto> findAllByCondition(String keyword, String platformCond, String cityCond, String stateCond, boolean isMint, String orderCond, Pageable pageable) {
+    public Page<PostDto> findAllByCondition(String keyword, String platformCond, String cityCond, String stateCond, boolean isMint, boolean isSold, String orderCond, Pageable pageable) {
         Item item = itemService.findByKeyword(keyword).orElseThrow();
         Long itemId = item.getId();
         System.out.println("itemId = " + itemId);
 
-        return postRepository.findAllByCondition(itemId, platformCond, cityCond, stateCond, isMint, orderCond, pageable);
+        return postRepository.findAllByCondition(itemId, platformCond, cityCond, stateCond, isMint, isSold, orderCond, pageable);
     }
 
 }

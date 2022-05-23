@@ -103,7 +103,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
      * @return
      */
 
-    public Page<PostDto> findAllByCondition(Long itemId, String platformCond,  String cityCond, String stateCond, boolean isMint, String orderCond, Pageable pageable) {
+    public Page<PostDto> findAllByCondition(Long itemId, String platformCond,  String cityCond, String stateCond, boolean isMint, boolean isSold, String orderCond, Pageable pageable) {
 
         List<PostDto> content = queryFactory
                 .select(new QPostDto(
@@ -120,7 +120,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.productImage
                 ))
                 .from(post)
-                .where(itemIdEq(itemId), platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint))
+                .where(itemIdEq(itemId), platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint), isSoldEq(isSold))
                 .orderBy(orderFunc(orderCond))
                 .join(post.location, location)
                 .join(post.platform, platform)
@@ -133,7 +133,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post)
-                .where(itemIdEq(itemId), platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint))
+                .where(itemIdEq(itemId), platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint), isSoldEq(isSold))
                 .join(post.location, location)
                 .join(post.platform, platform)
                 .join(post.marketPrice, marketPrice)
@@ -170,6 +170,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return isMint == true ? post.isMint.eq(true) : null;
     }
 
+    private BooleanExpression isSoldEq(boolean isSold) {
+        return isSold == true ? post.isSold.eq(true) : null;
+    }
 
     /**
      * 정렬하는 method
