@@ -22,7 +22,7 @@ public class PostApiController {
     @GetMapping("/post")
     public Page<PostDto> getPostByPage(
             @RequestParam(value = "keyword", required = true) String keyword,
-            @RequestParam(value = "platform", required = false) String platform,
+            @RequestParam(value = "platform", required = false) List<String> platform,
             @RequestParam(value = "city", required = false) String city,
             @RequestParam(value = "state", required = false) String state,
             @RequestParam(value = "isMint", required = false) boolean isMint,

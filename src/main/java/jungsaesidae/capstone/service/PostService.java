@@ -29,11 +29,7 @@ public class PostService {
         return postRepository.findOne(id);
     }
 
-    public List<PostDto> findAllByDto(String platformCond, String cityCond, String stateCond, String orderCond) {
-        return postRepository.findByCondition(platformCond, cityCond, stateCond, orderCond);
-    }
-
-    public Page<PostDto> findAllByCondition(String keyword, String platformCond, String cityCond, String stateCond, boolean isMint, boolean isSold, String orderCond, Pageable pageable) {
+    public Page<PostDto> findAllByCondition(String keyword, List<String> platformCond, String cityCond, String stateCond, boolean isMint, boolean isSold, String orderCond, Pageable pageable) {
         Item item = itemService.findByKeyword(keyword).orElseThrow();
         Long itemId = item.getId();
         System.out.println("itemId = " + itemId);

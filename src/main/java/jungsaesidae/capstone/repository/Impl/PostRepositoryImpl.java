@@ -54,44 +54,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         );
 
         return result;
-
     }
 
-    /**
-     * platform, city, state을 조건으로 받아들여 동적쿼리를 작성합니다.
-     * @param platformCond
-     * @param cityCond
-     * @param stateCond
-     * @return List<PostDto>
-     */
-
-    public List<PostDto> findByCondition(String platformCond, String cityCond, String stateCond, String orderCond) {
-
-        List<PostDto> result = queryFactory
-                .select(new QPostDto(
-                        post.id,
-                        post.url,
-                        post.isSold,
-                        post.isMint,
-                        post.uploadDate,
-                        new QLocationDto(location.id, location.city, location.state),
-                        platform.name,
-                        marketPrice.price,
-                        item.name,
-                        post.title,
-                        post.productImage
-                ))
-                .from(post)
-                .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond))
-                .orderBy(orderFunc(orderCond))
-                .join(post.location, location)
-                .join(post.platform, platform)
-                .join(post.marketPrice, marketPrice)
-                .join(post.item, item)
-                .fetch();
-
-        return result;
-    }
 
     /**
      * 검색API (페이지네이션으로 구현)
@@ -103,7 +67,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
      * @return
      */
 
-    public Page<PostDto> findAllByCondition(Long itemId, String platformCond,  String cityCond, String stateCond, boolean isMint, boolean isSold, String orderCond, Pageable pageable) {
+    public Page<PostDto> findAllByCondition(Long itemId, List<String> platformCond,  String cityCond, String stateCond, boolean isMint, boolean isSold, String orderCond, Pageable pageable) {
 
         List<PostDto> content = queryFactory
                 .select(new QPostDto(
@@ -153,8 +117,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return itemId != null ? post.item.id.eq(itemId) : null;
     }
 
-    private BooleanExpression platformEq(String platformCond) {
-        return platformCond != null ? post.platform.name.eq(platformCond) : null;
+    private BooleanExpression platformEq(List<String> platformCond) {
+        return platformCond != null ? post.platform.name.in(platformCond) : null;
     }
 
     private BooleanExpression cityEq(String cityCond) {
@@ -221,6 +185,4 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         else
             return post.id.desc();
     }
-
-
 }
