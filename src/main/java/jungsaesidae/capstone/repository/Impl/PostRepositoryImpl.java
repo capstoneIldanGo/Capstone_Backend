@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,16 +47,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                     ))
                     .from(post)
                     .where(post.id.eq(postId))
-                    .join(post.location, location)
-                    .join(post.platform, platform)
-                    .join(post.marketPrice, marketPrice)
-                    .join(post.item, item)
+                    .leftJoin(post.location, location)
+                    .leftJoin(post.platform, platform)
+                    .leftJoin(post.marketPrice, marketPrice)
+                    .leftJoin(post.item, item)
                     .fetchOne()
         );
 
         return result;
     }
-
 
     /**
      * 검색API (페이지네이션으로 구현)
@@ -84,9 +84,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.productImage
                 ))
                 .from(post)
-                .where(itemIdEq(itemId), platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint), isSoldEq(isSold))
+                .where(post.item.id.eq(itemId))
+                .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint), isSoldEq(isSold))
                 .orderBy(orderFunc(orderCond))
-                .join(post.location, location)
+                .leftJoin(post.location, location)
                 .join(post.platform, platform)
                 .join(post.marketPrice, marketPrice)
                 .join(post.item, item)
@@ -94,18 +95,23 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
+        SimpleDateFormat format3 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+        System.out.println("time_3 = " + format3.format (System.currentTimeMillis()));
+
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post)
-                .where(itemIdEq(itemId), platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint), isSoldEq(isSold))
-                .join(post.location, location)
+                .where(post.item.id.eq(itemId))
+                .where(platformEq(platformCond), cityEq(cityCond), stateEq(stateCond), isMintEq(isMint), isSoldEq(isSold))
+                .leftJoin(post.location, location)
                 .join(post.platform, platform)
                 .join(post.marketPrice, marketPrice)
                 .join(post.item, item);
 
+        System.out.println("time_4 = " + format3.format (System.currentTimeMillis()));
+
         return PageableExecutionUtils.getPage(content, pageable, () -> countQuery.fetchOne());
     }
-
 
     /**
      * Condition func
@@ -135,8 +141,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private BooleanExpression isSoldEq(boolean isSold) {
-        return isSold == true ? post.isSold.eq(true) : null;
+        return isSold == false ? post.isSold.eq(false) : null;
     }
+
+//    private BooleanExpression isSoldEq(boolean isSold) {
+//        return isSold == null ? (isSold == True post.isSold.eq(true)) : null;
+//    }
 
     /**
      * 정렬하는 method

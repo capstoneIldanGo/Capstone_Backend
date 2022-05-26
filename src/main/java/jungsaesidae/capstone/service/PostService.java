@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,11 +31,16 @@ public class PostService {
     }
 
     public Page<PostDto> findAllByCondition(String keyword, List<String> platformCond, String cityCond, String stateCond, boolean isMint, boolean isSold, String orderCond, Pageable pageable) {
+
+        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+        System.out.println("time_1 = " + format1.format (System.currentTimeMillis()));
+
         Item item = itemService.findByKeyword(keyword).orElseThrow();
-        Long itemId = item.getId();
-        System.out.println("itemId = " + itemId);
+        System.out.println("itemId = " + item.getId());
 
-        return postRepository.findAllByCondition(itemId, platformCond, cityCond, stateCond, isMint, isSold, orderCond, pageable);
+        System.out.println("time_2 = " + format1.format (System.currentTimeMillis()));
+
+        return postRepository.findAllByCondition(item.getId(), platformCond, cityCond, stateCond, isMint, isSold, orderCond, pageable);
     }
-
 }
+

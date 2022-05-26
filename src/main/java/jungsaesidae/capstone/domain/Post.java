@@ -41,13 +41,13 @@ public class Post {
     private List<MyPost> myPost = new ArrayList<>();
 
     // <변경 후>
-    @OneToOne(mappedBy = "post")
-    private MarketPrice marketPrice;
+//    @OneToOne(mappedBy = "post")
+//    private MarketPrice marketPrice;
 
     // <변경 전>
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "market_price_id")
-//    private MarketPrice marketPrice;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "market_price_id")
+    private MarketPrice marketPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
