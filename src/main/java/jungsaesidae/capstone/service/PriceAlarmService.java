@@ -1,5 +1,6 @@
 package jungsaesidae.capstone.service;
 
+import jungsaesidae.capstone.domain.Item;
 import jungsaesidae.capstone.domain.PriceAlarm;
 import jungsaesidae.capstone.dto.PriceAlarm.PriceAlarmDto;
 import jungsaesidae.capstone.repository.PriceAlarmRepository;
@@ -28,18 +29,19 @@ public class PriceAlarmService {
     }
 
     @Transactional
-    public Long add(Long userId, Long itemId, int targetPrice) {
+    public Long add(Long userId, String itemName, int targetPrice) {
         PriceAlarm priceAlarm = PriceAlarm.createPriceAlarm(
                 userService.findOneById(userId).orElseThrow(RuntimeException::new),
-                itemService.fineOneById(itemId).orElseThrow(RuntimeException::new),
+                itemService.findByKeyword(itemName).orElseThrow(RuntimeException::new),
                 targetPrice
         );
         return priceAlarmRepository.save(priceAlarm).getId();
     }
 
     @Transactional
-    public void delete(Long userId, Long itemId) {
-        priceAlarmRepository.deleteByUserIdAndItemId(userId, itemId);
+    public void delete(Long userId, String itemName) {
+        Item item = itemService.findByKeyword(itemName).orElseThrow(RuntimeException::new);
+        priceAlarmRepository.deleteByUserIdAndItemId(userId, item.getId());
     }
 
     @Transactional
@@ -47,7 +49,14 @@ public class PriceAlarmService {
         priceAlarmRepository.deleteById(priceAlarmId);
     }
 
-    public boolean existPriceAlarm(Long userId, Long itemId) {
-        return priceAlarmRepository.existsPriceAlarmsByUserIdAndItemId(userId, itemId);
+    public boolean existPriceAlarm(Long userId, String itemName) {
+        Item item = itemService.findByKeyword(itemName).orElseThrow(RuntimeException::new);
+        return priceAlarmRepository.existsPriceAlarmsByUserIdAndItemId(userId, item.getId());
+    }
+
+    @Transactional
+    public void update(Long userId, String itemName, Long targetPrice) {
+        Item item = itemService.findByKeyword(itemName).orElseThrow(RuntimeException::new);
+        priceAlarmRepository.updatePriceAlarm(userId, item.getId(), targetPrice);
     }
 }

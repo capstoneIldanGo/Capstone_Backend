@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class PriceAlarmRequest {
     private Long userId;
-    private Long itemId;
+    private String itemName;
+//    private Long itemId;
     private int targetPrice;
 }
