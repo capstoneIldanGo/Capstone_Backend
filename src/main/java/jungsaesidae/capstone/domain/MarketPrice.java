@@ -17,13 +17,13 @@ public class MarketPrice {
     private int price;
 
     // <변경 전>
-//    @OneToOne(mappedBy = "marketPrice", fetch = FetchType.LAZY)
-//    private Post post;
+    @OneToOne(mappedBy = "marketPrice", fetch = FetchType.LAZY)
+    private Post post;
 
 //     <변경 후>
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "post_id")
+//    private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")

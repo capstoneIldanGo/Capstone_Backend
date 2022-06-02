@@ -41,7 +41,15 @@ public class MarketPriceRepositoryImpl implements MarketPriceRepositoryCustom {
                         .and(marketPrice.post.uploadDate.between(localDateParser.startDate(), localDateParser.endDate())))
                 .fetchOne();
 
-//        System.out.println("result = " + result);
         return result;
     }
+
+//    @Query(value = "select snack_id, name, price from snack where snack_id > :id", nativeQuery = true)
+//    public List<Snack> selectSQLById2(@Param(value = "id") int id);
+
+
+//    public List<Double> findRecentAvgById(Long item_id, String dateTime) {
+////
+////
+////    }
 }
